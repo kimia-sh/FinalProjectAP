@@ -4,55 +4,63 @@ import javax.swing.*;
 import java.awt.*;
 
     public class WestPanel extends JScrollPane {
-        private JPanel mainPanel = new JPanel();
+        private JPanel mainWestPanel = new JPanel();
 
         public WestPanel(){
-            mainPanel.setSize(100,300);
+            mainWestPanel.setSize(800,300);
             GridBagLayout layout = new GridBagLayout();
             GridBagConstraints gbcons = new GridBagConstraints();
-            mainPanel.setLayout(layout);
+            mainWestPanel.setLayout(layout);
             JPanel jp = new JPanel();
             gbcons.fill = GridBagConstraints.VERTICAL;
+            //jp.setBounds(50 , 100 , 100 , 50);
             gbcons.gridx = 0;
             gbcons.gridy = 0;
+            JButton Home = new JButton("Home");
+            mainWestPanel.add(Home);
 
-            JTextField JTF = new JTextField("Library");
-            JButton plusLibrary = new JButton();
-            jp.add(JTF , BorderLayout.EAST);
-            jp.add(plusLibrary , BorderLayout.WEST);
-            mainPanel.add(jp , gbcons);
-
+            JLabel jlabel = new JLabel("Library");
+            //ImageIcon icon = new ImageIcon("Spotifypic ",
+              //      "a pretty but meaningless splat");
+            //jlabel = new JLabel("Image and Text", icon, JLabel.CENTER);
+            //jp.add( jlabel, BorderLayout.EAST);
             gbcons.gridx = 0;
             gbcons.gridy = 1;
+            JButton addLibrary = new JButton("+");
+            addLibrary.setBounds(50 , 100 , 50 , 100);
+            jp.add( jlabel, BorderLayout.WEST);
+            jp.add(addLibrary , BorderLayout.EAST);
+            mainWestPanel.add(jp , gbcons);
+
             JButton song = new JButton("Musics");
             song.setSize(new Dimension(50 , 10));
-            mainPanel.add(song , gbcons);
+            mainWestPanel.add(song , gbcons);
 
             gbcons.gridx = 0;
             gbcons.gridy = 2;
             JButton album = new JButton("Albums");
             album.setSize(new Dimension(50 , 10));
-            mainPanel.add(album , gbcons);
+            mainWestPanel.add(album , gbcons);
 
             gbcons.gridx = 0;
             gbcons.gridy = 3;
-            JButton playlist = new JButton("PlayLIst");
+            JButton playlist = new JButton("PlayLists");
             playlist.setSize(new Dimension(50 , 10));
-            mainPanel.add(album , gbcons);
+            mainWestPanel.add(playlist , gbcons);
 
-            JButton button = new JButton("");
+            JButton button = new JButton("add PlayLists");
 
             gbcons.fill = GridBagConstraints.HORIZONTAL;
             gbcons.ipady = 0;       //reset to default
-           // gbcons.weighty = 1.0;   //request any extra vertical space
+            gbcons.weighty = 2;   //request any extra vertical space
             gbcons.anchor = GridBagConstraints.PAGE_END; //bottom of space
-            gbcons.insets = new Insets(10,0,0,0);  //top padding
+            gbcons.insets = new Insets(0,0,0,0);  //top padding
             gbcons.gridx = 0;       //aligned with button 2
-            gbcons.gridwidth = 2;   //2 columns wide
-            gbcons.gridy = 2;       //third row
-            mainPanel.add(button, gbcons);
+            gbcons.gridwidth = 1;   //2 columns wide
+            gbcons.gridy = 5;       //third row
+            mainWestPanel.add(button, gbcons);
 
-            setViewportView(mainPanel);
+            setViewportView(mainWestPanel);
             setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             //mainPanel
 
