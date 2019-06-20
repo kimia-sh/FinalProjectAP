@@ -32,18 +32,20 @@ import java.awt.*;
             jp.add(addLibrary , BorderLayout.EAST);
             mainWestPanel.add(jp , gbcons);
 
+            gbcons.gridx = 0;
+            gbcons.gridy = 2;
             JButton song = new JButton("Musics");
             song.setSize(new Dimension(50 , 10));
             mainWestPanel.add(song , gbcons);
 
             gbcons.gridx = 0;
-            gbcons.gridy = 2;
+            gbcons.gridy = 3;
             JButton album = new JButton("Albums");
             album.setSize(new Dimension(50 , 10));
             mainWestPanel.add(album , gbcons);
 
             gbcons.gridx = 0;
-            gbcons.gridy = 3;
+            gbcons.gridy = 4;
             JButton playlist = new JButton("PlayLists");
             playlist.setSize(new Dimension(50 , 10));
             mainWestPanel.add(playlist , gbcons);
