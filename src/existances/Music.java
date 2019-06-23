@@ -10,140 +10,64 @@ import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
 public class Music {
-    private Thread thread;
-
+    JpotifyPlayer jpotifyPlayer;
     private String address;
     private InputStream musicStream;
-    private AdvancedPlayer player;
     private String title;
     private String artist;
     private String album;
-    private Runnable r;
-
-    private long end;
-    private long start;
-    private long passedTime;
-    private long length;
-    //    private int pausedOnFrame = 0;
     public Music(String address)  {
 
         this.address=address;
         title=new String();
         artist=new String();
         album=new String();
-
-        end=0;
-        start=0;
-        passedTime=0;
         setMusicStream();
-
-        setPlayer();
-
-       r = new Runnable( ) {
-            public void run() {
-
-                    if (passedTime == 0) {
-                        try {
-                            player.play();
-
-                        } catch (JavaLayerException e) {
-                            System.out.println("Error");
-                            e.printStackTrace();
-                        }
-                    } else {
-                        try {
-                            player.play((int) passedTime);
-                        } catch (JavaLayerException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-        };
-        thread=new Thread(r);
-
-
-//        player.setPlayBackListener(new PlaybackListener() {
-//            @Override
-//            public void playbackFinished(PlaybackEvent event) {
-//                pausedOnFrame = event.getFrame();
-//            }
-//        });
+        jpotifyPlayer=new JpotifyPlayer(this);
 
 
     }
     private void setMusicStream(){
 
+
         try {
             musicStream = new FileInputStream(address);
-            try {
-                Mp3File t=new Mp3File(address);
-                length=t.getLengthInMilliseconds();
-            } catch (UnsupportedTagException e) {
-                e.printStackTrace();
-            } catch (InvalidDataException e) {
-                e.printStackTrace();
-            }
-
-
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
         }
 
-        catch (IOException e){
-            System.out.println("ERROR");
-
-        }
 
     }
 
 
-    private void setPlayer() {
-        try {
-            player=new AdvancedPlayer(musicStream);
-
-        }
-        catch (JavaLayerException e){
-            // showing proper message
-            System.out.println("ERROR");
-            e.printStackTrace();
-        }
-
+    public InputStream getMusicStream() {
+        setMusicStream();
+        return musicStream ;
     }
-
+    // play from the first
     public void play(){
 
-        if(!thread.getState().name().equals("NEW"))
-            thread=new Thread(r);
-        System.out.println(thread.getState());
-        setMusicStream();
-        setPlayer();
-
-        thread.start();
-
-        start=System.currentTimeMillis();
-
+        if(!jpotifyPlayer.getState().name().equals("NEW")) {
+            jpotifyPlayer.close();
+            jpotifyPlayer=new JpotifyPlayer(this);
+        }
+        jpotifyPlayer.mp3Play();
     }
-//    public void play(int startPoint){
-//        passedTime=startPoint;
-//        System.out.println(thread.getState());
-//        thread.start();
-//
-//    }
-    public void stop(){
-        thread.stop();
-        player.close();
-
-        System.out.println(thread.getState());
-        end =System.currentTimeMillis();
-        passedTime+=end-start;
-
+    public void pause(){
+        jpotifyPlayer.mp3Pause();
     }
-
-
+    public void resume(){
+        jpotifyPlayer.mp3Resume();
+    }
+    public void seekto(int n){
+        jpotifyPlayer.seekTo(n);
+    }
 
     public void artWork(){
         try {
@@ -182,26 +106,34 @@ public class Music {
         return title;
     }
 
-    public static void main(String args[]){
-             int i=0;
-        Scanner scanner=new Scanner(System.in);
-
-            Music music = new Music("E://musics/o.mp3");
-        while( i!=1){
-            if(i==3)
-            music.play();
-            if(i==2)
-                music.stop();
-
-
-            i=scanner.nextInt();
-        }
-
-            music.artWork();
-        System.out.println(music.getAlbum());
-        System.out.println( music.getArtist());
-        System.out.println(music.getTitle());
-    }
+//    public static void main(String args[]){
+//        Scanner scanner=new Scanner(System.in);
+//        Music music=new Music("E://musics/t.mp3");
+//
+//
+////             int i=0;
+////
+////
+////
+////        while( i!=1){
+////            if(i==3)
+////            music.play();
+////            if(i==2)
+////                music.pause();
+////            if(i==4)
+////                music.resume();
+////            if(i==5)
+////                music.seekto(1000);
+////
+////
+////            i=scanner.nextInt();
+////        }
+//
+//            music.artWork();
+//        System.out.println(music.getAlbum());
+//        System.out.println( music.getArtist());
+//        System.out.println(music.getTitle());
+//    }
 
     
 }
