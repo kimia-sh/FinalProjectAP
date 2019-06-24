@@ -1,14 +1,12 @@
 package existances;
-import com.mpatric.mp3agic.ID3v1;
-import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.UnsupportedTagException;
+import com.mpatric.mp3agic.*;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
-import com.mpatric.mp3agic.Mp3File;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
 
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,6 +20,7 @@ public class Music {
     private String title;
     private String artist;
     private String album;
+    private  Icon musicImage;
     public Music(String address)  {
 
         this.address=address;
@@ -72,11 +71,13 @@ public class Music {
     public void artWork(){
         try {
             Mp3File myMusic=new Mp3File(address);
-            ID3v1 id3v1Tag = myMusic.getId3v1Tag();
+            ID3v2 id3v2 =myMusic.getId3v2Tag();
 
-            title=id3v1Tag.getTitle();
-            artist=id3v1Tag.getArtist();
-            album=id3v1Tag.getAlbum();
+
+            title=id3v2.getTitle();
+            artist=id3v2.getArtist();
+            album=id3v2.getAlbum();
+            id3v2.getAlbumImage();
 
         } catch (IOException e) {
             e.printStackTrace();
