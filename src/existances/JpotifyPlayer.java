@@ -4,11 +4,16 @@ package existances;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 
-public class JpotifyPlayer extends Thread {
+import java.awt.*;
+import java.io.Serializable;
+
+public class JpotifyPlayer extends Thread implements Serializable {
     Music music;
     AdvancedPlayer player;
     Boolean isPause;
+    int currentFrame;
     public JpotifyPlayer(Music music){
+        currentFrame=0;
         this.music = music;
         try {
             player=new AdvancedPlayer(music.getMusicStream());
@@ -41,6 +46,7 @@ public class JpotifyPlayer extends Thread {
             else {
                 try {
                     playing = player.play(1);
+                    currentFrame++;
                 } catch (JavaLayerException e) {
                     e.printStackTrace();
                     System.out.println("2");
@@ -83,9 +89,14 @@ public class JpotifyPlayer extends Thread {
     }
     public void close(){
         this.suspend();
+
     }
 
+    public Boolean getPause() {
+        return isPause;
+    }
 
-
-
+    public int getCurrentFrame() {
+        return currentFrame;
+    }
 }
