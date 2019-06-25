@@ -12,11 +12,13 @@ public class GUI extends JFrame {
         WestPanel westPanel = new WestPanel();
         SouthPanel southPanel=new SouthPanel();
         NorthPanel northPanel=new NorthPanel();
+        CenturPanel centurPanel = new CenturPanel();
+        EastPanel eastpanel = new EastPanel();
         getContentPane().add(westPanel , BorderLayout.WEST);
         getContentPane().add(southPanel , BorderLayout.SOUTH);
         getContentPane().add(northPanel,BorderLayout.NORTH);
-
-
+        getContentPane().add(centurPanel , BorderLayout.CENTER);
+        getContentPane().add(eastpanel , BorderLayout.EAST);
         setVisible(true);
     }
 }
