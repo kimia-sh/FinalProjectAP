@@ -1,21 +1,32 @@
 package GUI;
 
+
 import existances.Music;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
+import java.io.IOException;
 
 public class SouthPanel  extends JPanel implements ActionListener {
+    private GuiLogic.PlayingTimer timer;
+    private Thread playThread;
+
+    private boolean isPlaying = false;
+    private boolean isPause = false;
+    private Music music=new Music();
+=======
+
+    public class SouthPanel  extends JPanel implements ActionListener {
+>>>>>>> 1b1245d2a485219ad9fc610f320632d20c1e0486
         BorderLayout borderLayout;
-         JPanel west;
-         JPanel center;
-         JPanel east;
+        JPanel west;
+        JPanel center;
+        JPanel east;
         JButton previousButton ;
-
         JButton nextButton ;
-
         JButton pause ;
         JLabel title;
         JLabel artist ;
@@ -92,11 +103,109 @@ public class SouthPanel  extends JPanel implements ActionListener {
             gbc.gridx=20;
             buttons.add(nextButton,gbc);
             center.add(buttons,BorderLayout.SOUTH);
+            previousButton.addActionListener(this);
+            nextButton.addActionListener(this);
+            pause.addActionListener(this);
+
+
+
+
+        }
+        /**
+         * Handle click events on the buttons.
+         */
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object source = e.getSource();
+            if (source instanceof JButton) {
+                JButton button = (JButton) source;
+//            if (button == buttonOpen) {
+//                openFile();
+//            if (button == pause) {
+//                if (!isPlaying) {
+//                    playBack();
+//                } else {
+//                    stopPlaying();
+//                }
+//            } else if (button == buttonPause) {
+//                if (!isPause) {
+//                    pausePlaying();
+//                } else {
+//                    resumePlaying();
+//                }
+//            }
+
+                if(button==pause){
+//                  if(isPlaying){
+//                      pausePlaying();
+//                  }
+//                  else{
+//                      if(isPause)
+//                          resumePlaying();
+//                      else{
+//                          startPlaying();
+//                      }
+//                  }
+                    if(!isPlaying )
+                        startPlaying();
+                    if(isPlaying && !isPause)
+                        pausePlaying();
+                    if(isPlaying && isPause)
+                        resumePlaying();
+
+                }
+            }
+
+        }
+        private void startPlaying() {
+            timer = new GuiLogic.PlayingTimer(passedTime, playSlider);
+            timer.start();
+            isPlaying = true;
+            playThread = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    music.setAddress("E://musics/t.mp3");
+                    timer.setMusic(music);
+                    music.artWork();
+                    title.setText(music.getTitle()+"                              ");
+                    artist.setText(music.getArtist()+ "                              ");
+                    album.setText(music.getAlbum()+ "                              ");
+                    playSlider.setMaximum((int) music.getMusicSecondLength());
+
+                    time.setText(music.getMusicLengthString());
+                    music.play();
+//                resetControls();
+                    // for the time its completing
+                }
+
+            });
+            playThread.start();
+        }
+        private void pausePlaying() {
+
+            isPause = true;
+            music.pause();
+            timer.pauseTimer();
+            playThread.interrupt();
         }
 
+        private void resumePlaying() {
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
-}
+<<<<<<< HEAD
+                    isPause = false;
+            music.resume();
+            timer.resumeTimer();
+            playThread.interrupt();
+        }
+        private void resetControls() {
+            timer.reset();
+            timer.interrupt();
+            isPlaying = false;
+=======
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        }
