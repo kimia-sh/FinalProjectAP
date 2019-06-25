@@ -1,8 +1,9 @@
 package existances;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class BaseOfAlbumAndPlaylist {
+public abstract class BaseOfAlbumAndPlaylist implements Serializable {
         private String name;
 
         private ArrayList<Music> listMusic ;
@@ -13,13 +14,13 @@ public class BaseOfAlbumAndPlaylist {
                 current = 0;
         }
         public void previous(){
-                listMusic.get(current).stop();
+                listMusic.get(current).close();
                 current--;
                 listMusic.get(current).play();
         }
 
         public void next(){
-                listMusic.get(current).stop();
+                listMusic.get(current).close();
                 current ++;
                 listMusic.get(current).play();
         }
@@ -35,5 +36,11 @@ public class BaseOfAlbumAndPlaylist {
 
         protected void setName(String name) {
                 this.name = name;
+        }
+
+        public abstract void save();
+
+        public String getName() {
+                return name;
         }
 }
