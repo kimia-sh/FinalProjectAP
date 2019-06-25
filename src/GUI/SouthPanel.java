@@ -1,9 +1,13 @@
 package GUI;
 
+import existances.Music;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class SouthPanel  extends JPanel{
+public class SouthPanel  extends JPanel implements ActionListener {
         BorderLayout borderLayout;
          JPanel west;
          JPanel center;
@@ -20,14 +24,36 @@ public class SouthPanel  extends JPanel{
         JSlider sound ;
         JLabel passedTime;
         JLabel time;
+        ImageIcon icone;
+        //Music music = new Music();
         public SouthPanel(){
             east=new JPanel(new BorderLayout());
-            west=new JPanel();
+            //icone = new ImageIcon("D:\\n.png");
+//            west = new WestPanel();
+            west =new JPanel();
             center=new JPanel();
             borderLayout=new BorderLayout();
-            previousButton = new JButton("<");
+            previousButton = new JButton();
+            previousButton.setIcon(icone);
+            previousButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+
+                }
+            } );
             nextButton = new JButton(">");
+            nextButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+
+
+                }
+            } );
             pause = new JButton("||");
+            pause.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+
+
+                }
+            } );
             title=new JLabel("title");
             title.setSize(new Dimension(50,100));
             artist =new JLabel("artist");
@@ -69,4 +95,8 @@ public class SouthPanel  extends JPanel{
         }
 
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
 }
