@@ -1,9 +1,6 @@
 package GUI;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 1b1245d2a485219ad9fc610f320632d20c1e0486
 import existances.Music;
 
 import javax.swing.*;
@@ -22,12 +19,12 @@ public class SouthPanel  extends JPanel implements ActionListener {
     private Music music=new Music();
 =======
 
-public class SouthPanel  extends JPanel implements ActionListener {
+    public class SouthPanel  extends JPanel implements ActionListener {
 >>>>>>> 1b1245d2a485219ad9fc610f320632d20c1e0486
         BorderLayout borderLayout;
-         JPanel west;
-         JPanel center;
-         JPanel east;
+        JPanel west;
+        JPanel center;
+        JPanel east;
         JButton previousButton ;
         JButton nextButton ;
         JButton pause ;
@@ -114,16 +111,16 @@ public class SouthPanel  extends JPanel implements ActionListener {
 
 
         }
-    /**
-     * Handle click events on the buttons.
-     */
+        /**
+         * Handle click events on the buttons.
+         */
 
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object source = e.getSource();
-        if (source instanceof JButton) {
-            JButton button = (JButton) source;
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object source = e.getSource();
+            if (source instanceof JButton) {
+                JButton button = (JButton) source;
 //            if (button == buttonOpen) {
 //                openFile();
 //            if (button == pause) {
@@ -140,7 +137,7 @@ public class SouthPanel  extends JPanel implements ActionListener {
 //                }
 //            }
 
-              if(button==pause){
+                if(button==pause){
 //                  if(isPlaying){
 //                      pausePlaying();
 //                  }
@@ -151,66 +148,64 @@ public class SouthPanel  extends JPanel implements ActionListener {
 //                          startPlaying();
 //                      }
 //                  }
-                  if(!isPlaying )
-                      startPlaying();
-                  if(isPlaying && !isPause)
-                      pausePlaying();
-                  if(isPlaying && isPause)
-                      resumePlaying();
+                    if(!isPlaying )
+                        startPlaying();
+                    if(isPlaying && !isPause)
+                        pausePlaying();
+                    if(isPlaying && isPause)
+                        resumePlaying();
 
-              }
-        }
-
-    }
-    private void startPlaying() {
-        timer = new GuiLogic.PlayingTimer(passedTime, playSlider);
-        timer.start();
-        isPlaying = true;
-        playThread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                music.setAddress("E://musics/t.mp3");
-                timer.setMusic(music);
-                music.artWork();
-                title.setText(music.getTitle()+"                              ");
-                artist.setText(music.getArtist()+ "                              ");
-                album.setText(music.getAlbum()+ "                              ");
-                playSlider.setMaximum((int) music.getMusicSecondLength());
-
-                time.setText(music.getMusicLengthString());
-                music.play();
-//                resetControls();
-                     // for the time its completing
+                }
             }
 
-        });
-        playThread.start();
-    }
-    private void pausePlaying() {
+        }
+        private void startPlaying() {
+            timer = new GuiLogic.PlayingTimer(passedTime, playSlider);
+            timer.start();
+            isPlaying = true;
+            playThread = new Thread(new Runnable() {
 
-        isPause = true;
-        music.pause();
-        timer.pauseTimer();
-        playThread.interrupt();
-    }
+                @Override
+                public void run() {
+                    music.setAddress("E://musics/t.mp3");
+                    timer.setMusic(music);
+                    music.artWork();
+                    title.setText(music.getTitle()+"                              ");
+                    artist.setText(music.getArtist()+ "                              ");
+                    album.setText(music.getAlbum()+ "                              ");
+                    playSlider.setMaximum((int) music.getMusicSecondLength());
 
-    private void resumePlaying() {
+                    time.setText(music.getMusicLengthString());
+                    music.play();
+//                resetControls();
+                    // for the time its completing
+                }
+
+            });
+            playThread.start();
+        }
+        private void pausePlaying() {
+
+            isPause = true;
+            music.pause();
+            timer.pauseTimer();
+            playThread.interrupt();
+        }
+
+        private void resumePlaying() {
 
 <<<<<<< HEAD
-        isPause = false;
-        music.resume();
-        timer.resumeTimer();
-        playThread.interrupt();
-    }
-    private void resetControls() {
-        timer.reset();
-        timer.interrupt();
-        isPlaying = false;
+                    isPause = false;
+            music.resume();
+            timer.resumeTimer();
+            playThread.interrupt();
+        }
+        private void resetControls() {
+            timer.reset();
+            timer.interrupt();
+            isPlaying = false;
 =======
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
->>>>>>> 1b1245d2a485219ad9fc610f320632d20c1e0486
-    }
-}
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        }
