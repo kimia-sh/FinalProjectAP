@@ -1,12 +1,16 @@
 package GUI;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1b1245d2a485219ad9fc610f320632d20c1e0486
 import existances.Music;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 import java.io.IOException;
 
 public class SouthPanel  extends JPanel implements ActionListener {
@@ -16,6 +20,10 @@ public class SouthPanel  extends JPanel implements ActionListener {
     private boolean isPlaying = false;
     private boolean isPause = false;
     private Music music=new Music();
+=======
+
+public class SouthPanel  extends JPanel implements ActionListener {
+>>>>>>> 1b1245d2a485219ad9fc610f320632d20c1e0486
         BorderLayout borderLayout;
          JPanel west;
          JPanel center;
@@ -30,14 +38,36 @@ public class SouthPanel  extends JPanel implements ActionListener {
         JSlider sound ;
         JLabel passedTime;
         JLabel time;
+        ImageIcon icone;
+        //Music music = new Music();
         public SouthPanel(){
             east=new JPanel(new BorderLayout());
-            west=new JPanel();
+            //icone = new ImageIcon("D:\\n.png");
+//            west = new WestPanel();
+            west =new JPanel();
             center=new JPanel();
             borderLayout=new BorderLayout();
-            previousButton = new JButton("<");
+            previousButton = new JButton();
+            previousButton.setIcon(icone);
+            previousButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+
+                }
+            } );
             nextButton = new JButton(">");
+            nextButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+
+
+                }
+            } );
             pause = new JButton("||");
+            pause.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+
+
+                }
+            } );
             title=new JLabel("title");
             title.setSize(new Dimension(50,100));
             artist =new JLabel("artist");
@@ -167,6 +197,7 @@ public class SouthPanel  extends JPanel implements ActionListener {
 
     private void resumePlaying() {
 
+<<<<<<< HEAD
         isPause = false;
         music.resume();
         timer.resumeTimer();
@@ -176,5 +207,10 @@ public class SouthPanel  extends JPanel implements ActionListener {
         timer.reset();
         timer.interrupt();
         isPlaying = false;
+=======
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+>>>>>>> 1b1245d2a485219ad9fc610f320632d20c1e0486
     }
 }
