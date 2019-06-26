@@ -20,6 +20,7 @@
 package javazoom.jl.player.advanced;
 
 import java.io.InputStream;
+import java.io.Serializable;
 
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.BitstreamException;
@@ -34,7 +35,7 @@ import javazoom.jl.player.FactoryRegistry;
  * a hybrid of javazoom.jl.player.Player tweeked to include <code>play(startFrame, endFrame)</code>
  * hopefully this will be included in the api
  */
-public class AdvancedPlayer
+public class AdvancedPlayer implements Serializable
 {
 	/** The MPEG audio bitstream.*/
 	private Bitstream bitstream;
