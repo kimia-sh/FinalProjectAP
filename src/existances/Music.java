@@ -131,22 +131,33 @@ public class Music implements Serializable {
     public long getMusicSecondLength(){
         long musicSecondLength;
         try {
-            byte[] bytes=getMusicStream().readAllBytes();
-            musicSecondLength =Math.round(bytes.length*8/320000);
-        } catch (IOException e) {
+            FileInputStream tmpMusicStream = new FileInputStream(address);
+            try {
+                byte[] bytes = tmpMusicStream.readAllBytes();
+                musicSecondLength = Math.round(bytes.length * 8 / 320000);
+                tmpMusicStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                musicSecondLength = 0;
+            }
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-            musicSecondLength=0;
+            musicSecondLength = 0;
         }
 
         return musicSecondLength;
     }
-    public String getMusicLengthString() {
+    public String getMusicLengthString(int determineSecond) {
         String length = "";
         long hour = 0;
         long minute = 0;
-        long seconds = getMusicSecondLength() ;
+        long seconds;
+        if(determineSecond==1)
+              seconds = getMusicSecondLength() ;
+        else
+            seconds=getPosition();
 
-        System.out.println(seconds);
+
 
         if (seconds >= 3600) {
             hour = seconds / 3600;
@@ -171,6 +182,7 @@ public class Music implements Serializable {
 
         return length;
     }
+
 
 
 //    public static void main(String args[]){
