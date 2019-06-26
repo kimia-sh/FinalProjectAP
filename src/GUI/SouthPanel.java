@@ -64,8 +64,8 @@ public class SouthPanel  extends JPanel implements ActionListener {
         gbc.gridy=2;
         west.add(album,gbc);
         center.setLayout(new BorderLayout(10,0));
-        center.add(time,BorderLayout.WEST);
-        center.add(passedTime,BorderLayout.EAST);
+        center.add(time,BorderLayout.EAST);
+        center.add(passedTime,BorderLayout.WEST);
         center.add(playSlider,BorderLayout.CENTER);
         JPanel buttons=new JPanel(new GridBagLayout());
         gbc.gridy=0;
@@ -123,10 +123,14 @@ public class SouthPanel  extends JPanel implements ActionListener {
 //                  }
                 if(!isPlaying )
                     startPlaying();
-                if(isPlaying && !isPause)
-                    pausePlaying();
-                if(isPlaying && isPause)
-                    resumePlaying();
+                 else {
+                    if (isPlaying && !isPause)
+                        pausePlaying();
+                    else {
+                        if (isPlaying && isPause)
+                            resumePlaying();
+                    }
+                }
 
             }
         }
@@ -148,8 +152,10 @@ public class SouthPanel  extends JPanel implements ActionListener {
                 album.setText(music.getAlbum()+ "                              ");
                 playSlider.setMaximum((int) music.getMusicSecondLength());
 
-                time.setText(music.getMusicLengthString());
+                time.setText(music.getMusicLengthString(1));
+
                 music.play();
+                timer.run();
 //                resetControls();
                 // for the time its completing
             }
