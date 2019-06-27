@@ -6,12 +6,15 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Scanner;
 
-public class Music implements Serializable {
+public class Music extends Mp3File implements Serializable {
     JpotifyPlayer jpotifyPlayer;
+
     private String address;
     private InputStream musicStream;
     private String title;
@@ -22,15 +25,29 @@ public class Music implements Serializable {
         title=new String();
         artist=new String();
         album=new String();
+        musicImage = new ImageIcon("E://pic.jpg");
+
     }
-    public Music(String address)  {
+    public Music(String address, String title)  {
+        if (this.hasId3v2Tag())
+        {
+            ID3v2 id3v2 = this.getId3v2Tag();
+            byte[] imageData = id3v2.getAlbumImage();
+            try {
+                if (imageData != null) {
+                    BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageData));
+                    musicImage = new ImageIcon(img);
+                }
+            }catch(IOException io) {}
+        }
 
         this.address=address;
-        title=new String();
+        this.title = title;
         artist=new String();
         album=new String();
         setMusicStream();
         jpotifyPlayer=new JpotifyPlayer(this);
+        musicImage = new ImageIcon("E://pic.jpg");
 
 
     }
@@ -58,6 +75,11 @@ public class Music implements Serializable {
         setMusicStream();
         return musicStream ;
     }
+
+    public Icon getIcon() {
+        return musicImage ;
+    }
+
     // play from the first
     public void play(){
 
@@ -173,9 +195,9 @@ public class Music implements Serializable {
     }
 
 
-//    public static void main(String args[]){
+    public static void main(String args[]){
 //        Scanner scanner=new Scanner(System.in);
-//        Music music=new Music("E://musics/t.mp3");
+//        Music music=new Music("E://1.mp3");
 //        System.out.println(music.getMusicLengthString());
 //
 //
@@ -201,7 +223,7 @@ public class Music implements Serializable {
 //        System.out.println(music.getAlbum());
 //        System.out.println( music.getArtist());
 //        System.out.println(music.getTitle());
-//    }
+    }
 
-    
+
 }
