@@ -1,5 +1,8 @@
 package existances;
 
+import javax.swing.*;
+import javax.swing.JButton;
+import java.awt.*;
 import java.io.*;
 
 public class PlayList  extends BaseOfAlbumAndPlaylist implements Serializable {
@@ -40,10 +43,10 @@ public class PlayList  extends BaseOfAlbumAndPlaylist implements Serializable {
 
     }
     public static void main(String args[]){
-        PlayList playList=new PlayList("favorite");
-        Music music=new Music("E://musics/o.mp3");
-        playList.add(music);
-        playList.save();
+//        PlayList playList=new PlayList("favorite");
+//        Music music=new Music("E://musics/o.mp3");
+//        playList.add(music);
+//        playList.save();
 
     }
 }
