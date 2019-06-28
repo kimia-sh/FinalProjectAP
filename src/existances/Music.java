@@ -1,16 +1,13 @@
 package existances;
 import com.mpatric.mp3agic.*;
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
-import javazoom.jl.player.advanced.AdvancedPlayer;
-import javazoom.jl.player.advanced.PlaybackEvent;
-import javazoom.jl.player.advanced.PlaybackListener;
+
+import java.time.LocalDateTime;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Music extends Mp3File implements Serializable {
     JpotifyPlayer jpotifyPlayer;
@@ -21,14 +18,31 @@ public class Music extends Mp3File implements Serializable {
     private String artist;
     private String album;
     private  Icon musicImage;
+    public LocalDateTime lastTime;
+
+
     public Music (){
         title=new String();
         artist=new String();
         album=new String();
-        musicImage = new ImageIcon("E://pic.jpg");
+        lastTime =LocalDateTime.now();
+//        musicImage = new ImageIcon("E://pic.jpg");
+        if (this.hasId3v2Tag())
+        {
+            ID3v2 id3v2 = this.getId3v2Tag();
+            byte[] imageData = id3v2.getAlbumImage();
+            try {
+                if (imageData != null) {
+                    BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageData));
+                    musicImage = new ImageIcon(img);
+                }
+            }catch(IOException io) {}
+        }
 
     }
     public Music(String address, String title)  {
+        musicImage = new ImageIcon("E://red.png");
+
         if (this.hasId3v2Tag())
         {
             ID3v2 id3v2 = this.getId3v2Tag();
@@ -47,7 +61,6 @@ public class Music extends Mp3File implements Serializable {
         album=new String();
         setMusicStream();
         jpotifyPlayer=new JpotifyPlayer(this);
-        musicImage = new ImageIcon("E://pic.jpg");
 
 
     }
@@ -195,6 +208,7 @@ public class Music extends Mp3File implements Serializable {
     }
 
 
+
     public static void main(String args[]){
 //        Scanner scanner=new Scanner(System.in);
 //        Music music=new Music("E://1.mp3");
@@ -224,6 +238,4 @@ public class Music extends Mp3File implements Serializable {
 //        System.out.println( music.getArtist());
 //        System.out.println(music.getTitle());
     }
-
-
 }
