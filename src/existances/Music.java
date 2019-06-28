@@ -187,8 +187,8 @@ public class Music implements Serializable {
 
 //    public static void main(String args[]){
 //        Scanner scanner=new Scanner(System.in);
-//        Music music=new Music("E://musics/t.mp3");
-//        System.out.println(music.getMusicLengthString());
+//        Music music=new Music("E://musics/o.mp3");
+////        System.out.println(music.getMusicLengthString());
 //
 //
 //             int i=0;
