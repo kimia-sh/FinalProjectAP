@@ -123,7 +123,7 @@ public class SouthPanel  extends JPanel implements ActionListener {
 //                  }
                 if(!isPlaying )
                     startPlaying();
-                else {
+                 else {
                     if (isPlaying && !isPause)
                         pausePlaying();
                     else {
@@ -152,7 +152,7 @@ public class SouthPanel  extends JPanel implements ActionListener {
                 album.setText(music.getAlbum()+ "                              ");
                 playSlider.setMaximum((int) music.getMusicSecondLength());
 
-                time.setText(music.getMusicLengthString());
+                time.setText(music.getMusicLengthString(1));
 
                 music.play();
                 timer.run();

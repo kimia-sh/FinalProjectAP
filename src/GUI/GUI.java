@@ -1,5 +1,4 @@
 package GUI;
-import existances.TimeComparator;
 
 import existances.Album;
 import existances.Music;
@@ -7,10 +6,8 @@ import existances.PlayList;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collections;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -18,10 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileFilter;
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class GUI extends JFrame implements ActionListener {
     JPanel westPanel;
@@ -102,80 +97,102 @@ public class GUI extends JFrame implements ActionListener {
         playList3.add(music8);
         playLists.add(playList3);
 
-        setSize(1366, 730);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new BorderLayout());
+        public class GUI extends JFrame {
+            JPanel westPanel;
+            JPanel northPanel;
+            //      JPanel southPanel;
+            JPanel eastPanel;
+            JPanel centerPanel;
+            JPanel northWest;
+            SpringLayout springLayout;
+            JTextArea area;
+            JButton search;
+
+            setSize(1366,730);
+
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            getContentPane().setLayout(new BorderLayout());
 //        WestPanel westPanel = new WestPanel();
-        SouthPanel southPanel = new SouthPanel();
-        NorthPanel northPanel = new NorthPanel();
-//        CenturPanel centurPanel = new CenturPanel();
-//        EastPanel eastpanel = new EastPanel();
-        westPanel = new JPanel();
-        eastPanel = new JPanel();
 
-        centerPanel = new JPanel();
-        setEastPanel();
-        setWestPanel();
+            SouthPanel southPanel = new SouthPanel();
+            NorthPanel northPanel = new NorthPanel();
 
-//        setSouthPanel();
-        setCenterPanel();
-        getContentPane().add(westPanel, BorderLayout.WEST);
-        getContentPane().add(southPanel, BorderLayout.SOUTH);
-        getContentPane().add(northPanel, BorderLayout.NORTH);
-        getContentPane().add(centerPanel, BorderLayout.CENTER);
-        getContentPane().add(eastPanel, BorderLayout.EAST);
-        setVisible(true);
-    }
+            westPanel=new JPanel();
 
-    public void setWestPanel() {
-        westPanel.setLayout(new BorderLayout());
-        northWest = new JPanel(new GridBagLayout());
+            eastPanel=new JPanel();
 
-        GridBagConstraints gbcons = new GridBagConstraints();
-        gbcons.fill = GridBagConstraints.VERTICAL;
-        JPanel jp = new JPanel(new BorderLayout());
-        JPanel jp2 = new JPanel(new BorderLayout());
+            centerPanel=new JPanel();
 
-        gbcons.gridx = 0;
-        gbcons.gridy = 0;
-        JButton home = new JButton("Home");
-        northWest.add(home, gbcons);
+            setEastPanel();
 
-        JLabel playListLabel = new JLabel("Playlist");
-        addPlayList = new JButton("+");
-        addPlayList.setBounds(50 , 100 , 50 , 100);
-        addPlayList.addActionListener(this);
-        jp2.add( playListLabel, BorderLayout.WEST);
-        jp2.add(addPlayList , BorderLayout.EAST);
-        gbcons.gridx = 0;
-        gbcons.gridy = 1;
-        northWest.add(jp2,gbcons);
+            setWestPanel();
 
-        JLabel jlabel = new JLabel("Library");
-        addLibrary = new JButton("+");
-        addLibrary.setBounds(50 , 100 , 50 , 100);
-        addLibrary.addActionListener(this);
-        jp.add( jlabel, BorderLayout.WEST);
-        jp.add(addLibrary , BorderLayout.EAST);
-        gbcons.gridx = 0;
-        gbcons.gridy = 2;
-        northWest.add(jp,gbcons);
+            //        setSouthPanel();
+            setCenterPanel();
 
-        songs_button = new JButton("Songs");
-        songs_button.setBounds(50 , 100 , 100 , 100);
-        gbcons.gridx = 0;
-        gbcons.gridy = 3;
-        northWest.add(songs_button , gbcons);
-        songs_button.addActionListener(this);
+            getContentPane().add(westPanel, BorderLayout.WEST);
 
-        album_button = new JButton("Albums");
-        album_button.setSize(new Dimension(50, 10));
-        gbcons.gridx = 0;
-        gbcons.gridy = 4;
-        northWest.add(album_button, gbcons);
-        album_button.addActionListener(this);
+            getContentPane().add(southPanel, BorderLayout.SOUTH);
 
-        westPanel.add(northWest, BorderLayout.NORTH);
+            getContentPane().add(northPanel, BorderLayout.NORTH);
+
+            getContentPane().add(centerPanel, BorderLayout.CENTER);
+
+            getContentPane().add(eastPanel, BorderLayout.EAST);
+
+            setVisible(true);
+        }
+
+        public void setWestPanel () {
+            westPanel.setLayout(new BorderLayout());
+            northWest = new JPanel(new GridBagLayout());
+
+            GridBagConstraints gbcons = new GridBagConstraints();
+            gbcons.fill = GridBagConstraints.VERTICAL;
+            JPanel jp = new JPanel(new BorderLayout());
+            JPanel jp2 = new JPanel(new BorderLayout());
+
+            gbcons.gridx = 0;
+            gbcons.gridy = 0;
+            JButton home = new JButton("Home");
+            northWest.add(home, gbcons);
+
+            JLabel playListLabel = new JLabel("Playlist");
+            addPlayList = new JButton("+");
+            addPlayList.setBounds(50, 100, 50, 100);
+            addPlayList.addActionListener(this);
+            jp2.add(playListLabel, BorderLayout.WEST);
+            jp2.add(addPlayList, BorderLayout.EAST);
+            gbcons.gridx = 0;
+            gbcons.gridy = 1;
+            northWest.add(jp2, gbcons);
+
+            JLabel jlabel = new JLabel("Library");
+            addLibrary = new JButton("+");
+            addLibrary.setBounds(50, 100, 50, 100);
+            addLibrary.addActionListener(this);
+            jp.add(jlabel, BorderLayout.WEST);
+            jp.add(addLibrary, BorderLayout.EAST);
+            gbcons.gridx = 0;
+            gbcons.gridy = 2;
+            northWest.add(jp, gbcons);
+
+            songs_button = new JButton("Songs");
+            songs_button.setBounds(50, 100, 100, 100);
+            gbcons.gridx = 0;
+            gbcons.gridy = 3;
+            northWest.add(songs_button, gbcons);
+            songs_button.addActionListener(this);
+
+            album_button = new JButton("Albums");
+            album_button.setSize(new Dimension(50, 10));
+            gbcons.gridx = 0;
+            gbcons.gridy = 4;
+            northWest.add(album_button, gbcons);
+            album_button.addActionListener(this);
+
+            westPanel.add(northWest, BorderLayout.NORTH);
 
 //        showPlaylists=new JPanel();
 //        showPlaylists.setLayout(new BorderLayout());
@@ -183,7 +200,7 @@ public class GUI extends JFrame implements ActionListener {
 //            showPlaylists.setSize(new Dimension(50,1000));
 //            showPlaylists.setSize(0,0);
 //            showPlaylists.setBackground(Color.BLACK);
-        //showPlaylists.add(all_playlists_button);
+            //showPlaylists.add(all_playlists_button);
 
 
 //        JScrollPane scrollableArea = new JScrollPane(showPlaylists);
@@ -206,38 +223,37 @@ public class GUI extends JFrame implements ActionListener {
 //        westPanel.add(playlistPanel,BorderLayout.CENTER);
 
 
-        all_playlists_button = new JLabel("Playlist");
-        all_playlists_button.setPreferredSize(new Dimension(200, 50));
-        gbcons.gridx = 0;
-        gbcons.gridy = 5;
-        northWest.add(all_playlists_button,gbcons);
+            all_playlists_button = new JLabel("Playlist");
+            all_playlists_button.setPreferredSize(new Dimension(200, 50));
+            gbcons.gridx = 0;
+            gbcons.gridy = 5;
+            northWest.add(all_playlists_button, gbcons);
 //        all_playlists_button.addActionListener(this);
-        list = new JList();
-        list.setBounds(187, 51, 179, 167);
-        westPanel.add(list);
-        DLM = new DefaultListModel();
-        for (int i = 0; i < playLists.size(); i++) {
-            String s = String.format(playLists.get(i).getName());
-            DLM.addElement(s);
-        }
-        list.setModel(DLM);
-        westPanel.add(list);
-        list.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    type = 2;
-                    drawSongs(playLists.get(list.getSelectedIndex()).getListMusic());
-                }
+            list = new JList();
+            list.setBounds(187, 51, 179, 167);
+            westPanel.add(list);
+            DLM = new DefaultListModel();
+            for (int i = 0; i < playLists.size(); i++) {
+                String s = String.format(playLists.get(i).getName());
+                DLM.addElement(s);
             }
-        });
+            list.setModel(DLM);
+            westPanel.add(list);
+            list.addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    if (!e.getValueIsAdjusting()) {
+                        type = 2;
+                        drawSongs(playLists.get(list.getSelectedIndex()).getListMusic());
+                    }
+                }
+            });
 
 
+            JLabel artWork = new JLabel("art work");
+            westPanel.add(artWork, BorderLayout.SOUTH);
 
-        JLabel artWork = new JLabel("art work");
-        westPanel.add(artWork, BorderLayout.SOUTH);
-
-    }
+        }
 //        westPanel=new JPanel(new GridBagLayout());
 //        westPanel.setLayout(new BorderLayout());
 // //       westPanel.setLayout(null);
@@ -321,16 +337,16 @@ public class GUI extends JFrame implements ActionListener {
 ////        westPanel.add(artWork,BorderLayout.SOUTH);
 //    }
 
-    public void setEastPanel() {
-        JLabel jLabel = new JLabel();
-        jLabel.setForeground(Color.CYAN);
-        jLabel.setText(jLabel.getText() + "Friend Activity");
-        //jLabel.add(button);
+        public void setEastPanel () {
+            JLabel jLabel = new JLabel();
+            jLabel.setForeground(Color.CYAN);
+            jLabel.setText(jLabel.getText() + "Friend Activity");
+            //jLabel.add(button);
 
-        GridBagConstraints gbcons = new GridBagConstraints();
-        JLabel jLabel1 = new JLabel();
-        jLabel.setBackground(Color.RED);
-        eastPanel.add(jLabel);
+            GridBagConstraints gbcons = new GridBagConstraints();
+            JLabel jLabel1 = new JLabel();
+            jLabel.setBackground(Color.RED);
+            eastPanel.add(jLabel);
 //        JButton b1=new JButton();
 //        gbcons.fill = GridBagConstraints.HORIZONTAL;
 //        gbcons.gridx = 0;
@@ -338,28 +354,27 @@ public class GUI extends JFrame implements ActionListener {
 //        b1.setBackground(Color.yellow);
 //        b1.setPreferredSize(new Dimension(100 , 100));
 //        add(b1);
-        //jLabel.setText(jLabel.getText()+"Name " +
-        //      " artWork " +
-        //    " SongName");
-        //jpanel1.add(jLabel);
-        //jpanel1.setForeground(Color.BLUE);
-        //jpanel1.setPreferredSize(new Dimension(350, 190));
+            //jLabel.setText(jLabel.getText()+"Name " +
+            //      " artWork " +
+            //    " SongName");
+            //jpanel1.add(jLabel);
+            //jpanel1.setForeground(Color.BLUE);
+            //jpanel1.setPreferredSize(new Dimension(350, 190));
 
-        gbcons.fill = GridBagConstraints.VERTICAL;
-        gbcons.gridx = 0;
-        gbcons.gridy = 1;
-        eastPanel.setBackground(Color.BLACK);
-
-
-    }
+            gbcons.fill = GridBagConstraints.VERTICAL;
+            gbcons.gridx = 0;
+            gbcons.gridy = 1;
+            eastPanel.setBackground(Color.BLACK);
 
 
-    public void setCenterPanel() {
-        centerPanel.setBackground(Color.MAGENTA);
-        GridBagConstraints gbcons = new GridBagConstraints();
-        JLabel jLabel = new JLabel();
+        }
 
-        //pList.setListMusic(p.getListMusic());
+        public void setCenterPanel () {
+            centerPanel.setBackground(Color.MAGENTA);
+            GridBagConstraints gbcons = new GridBagConstraints();
+            JLabel jLabel = new JLabel();
+
+            //pList.setListMusic(p.getListMusic());
 //            JButton b;
 //
 //            for(int i = 0 ; i < playList.getNumberOfPlaylistMusic(); i++) {
@@ -371,60 +386,59 @@ public class GUI extends JFrame implements ActionListener {
 //            for(int i = 0 ; i < playList.getNumberOfPlaylistMusic(); i++) {
 //                centerPanel.add(buttonList.get(i));
 //            }
-    }
+        }
 
 
-    public void drawSongs(ArrayList<Music> allSongs) {
-        //pList.setListMusic(p.getListMusic());
-        JButton b;
-        songsButtonList.clear();
-        centerPanel.removeAll();
-        centerPanel.revalidate();
-        centerPanel.repaint();
-        setVisible(true);
+        public void drawSongs (ArrayList < Music > allSongs) {
+            //pList.setListMusic(p.getListMusic());
+            JButton b;
+            songsButtonList.clear();
+            centerPanel.removeAll();
+            centerPanel.revalidate();
+            centerPanel.repaint();
+            setVisible(true);
 
 //        for( int i=0; i < centerPanel.getComponentCount(); i++)
 //            centerPanel.remove(i);
-        for (int i = 0; i < allSongs.size(); i++) {
-            b = new JButton(allSongs.get(i).getTitle());
-            b.setIcon(allSongs.get(i).getIcon());
-            b.setPreferredSize(new Dimension(160, 160));
-            album_button.setSize(new Dimension(50, 10));
-            GridBagConstraints gbcons = new GridBagConstraints();
-            gbcons.gridx = 0;
-            gbcons.gridy = 0;
+            for (int i = 0; i < allSongs.size(); i++) {
+                b = new JButton(allSongs.get(i).getTitle());
+                b.setIcon(allSongs.get(i).getIcon());
+                b.setPreferredSize(new Dimension(160, 160));
+                album_button.setSize(new Dimension(50, 10));
+                GridBagConstraints gbcons = new GridBagConstraints();
+                gbcons.gridx = 0;
+                gbcons.gridy = 0;
 
-            currentSong = songs.get(i);
-            songsButtonList.add(b);
-            b.addActionListener(this);
-            b.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    if (e.getButton()==MouseEvent.BUTTON3)
-                    {
-                        newPlayList.add(currentSong);
+                currentSong = songs.get(i);
+                songsButtonList.add(b);
+                b.addActionListener(this);
+                b.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        if (e.getButton() == MouseEvent.BUTTON3) {
+                            newPlayList.add(currentSong);
+                        }
                     }
-                }
-            });
-            JPanel jp = new JPanel();
-            JLabel jTitle = new JLabel(allSongs.get(i).getTitle());
-            jTitle.setBounds(0,0,50,50);
-            JLabel jArtist = new JLabel(allSongs.get(i).getArtist());
-            jArtist.setBounds(0,100,50,50);
-            jp.add(b);
-            jp.add(jTitle,gbcons);
-            jp.add(jArtist,gbcons);
+                });
+                JPanel jp = new JPanel();
+                JLabel jTitle = new JLabel(allSongs.get(i).getTitle());
+                jTitle.setBounds(0, 0, 50, 50);
+                JLabel jArtist = new JLabel(allSongs.get(i).getArtist());
+                jArtist.setBounds(0, 100, 50, 50);
+                jp.add(b);
+                jp.add(jTitle, gbcons);
+                jp.add(jArtist, gbcons);
 
-            centerPanel.add(jp);
-        }
+                centerPanel.add(jp);
+            }
 //        for (int i = 0; i < allSongs.size(); i++) {
 //            centerPanel.add(songsButtonList.get(i));
 //        }
-        setVisible(true);
-        centerPanel.revalidate();
+            setVisible(true);
+            centerPanel.revalidate();
+        }
+
     }
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < songsButtonList.size(); i++) {

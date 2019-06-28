@@ -15,7 +15,6 @@ public class PlayingTimer extends Thread {
     private long startTime;
     private long pauseTime;
     private JLabel labelRecordTime;
-    private JLabel songLength;
     private JSlider slider;
     private existances.Music music;
 
@@ -42,7 +41,7 @@ public class PlayingTimer extends Thread {
 //                Thread.sleep(100);
                 if (!isPause) {
                     if (music != null && music.isRunning()) {
-                        labelRecordTime.setText(toTimeString());
+                        labelRecordTime.setText(music.getMusicLengthString(0));
                         int currentSecond = (int) music.getPosition();
                         slider.setValue(currentSecond);
                     }
@@ -77,11 +76,5 @@ public class PlayingTimer extends Thread {
     }
 
 
-    private String toTimeString() {
-        long now = System.currentTimeMillis();
-        Date current = new Date(now - startTime - pauseTime);
-        dateFormater.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String timeCounter = dateFormater.format(current);
-        return timeCounter;
-    }
+
 }
