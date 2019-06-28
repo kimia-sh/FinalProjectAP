@@ -2,6 +2,9 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class NorthPanel extends JPanel {
 //
@@ -24,8 +27,35 @@ public class NorthPanel extends JPanel {
         setLayout(springLayout);
         area= new JTextArea(2, 30);
         search= new JButton("Search");
+        JLabel username=new JLabel();
+        try {
+            FileReader fileReader = new FileReader("E://ap/Project/FinalProjectAP/File/information.txt");
+            int input;
+
+            String myUsername=new String("");
+            while ((input = fileReader.read()) != -1){
+                if((char)input!=' '){
+                    Character tmpInput=(char)input;
+                 myUsername=myUsername.concat(tmpInput.toString());
+                }
+                else break;
+            }
+
+            username.setText(myUsername);
+
+            fileReader.close();
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        username.setFont(new Font("Serif", Font.PLAIN, 20));
         add(area);
         add(search);
+        add(username);
 
         springLayout.putConstraint(SpringLayout.WEST, search,130,SpringLayout.WEST,this);
         springLayout.putConstraint(SpringLayout.NORTH,search,3,SpringLayout.NORTH, this);

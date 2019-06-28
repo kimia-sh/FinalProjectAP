@@ -2,16 +2,20 @@ package GUI;
 
 
 import existances.Music;
+import existances.SoundMaster;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class SouthPanel  extends JPanel implements ActionListener {
+public class SouthPanel  extends JPanel implements ActionListener, ChangeListener {
     private GuiLogic.PlayingTimer timer;
     private Thread playThread;
+    private SoundMaster soundMaster=new SoundMaster();
 
     private boolean isPlaying = false;
     private boolean isPause = false;
@@ -79,6 +83,10 @@ public class SouthPanel  extends JPanel implements ActionListener {
         previousButton.addActionListener(this);
         nextButton.addActionListener(this);
         pause.addActionListener(this);
+        playSlider.addChangeListener(this);
+        sound.setMinimum(0);
+        sound.setMaximum(65535);
+        sound.addChangeListener(this);
 
 
 
@@ -94,35 +102,10 @@ public class SouthPanel  extends JPanel implements ActionListener {
         Object source = e.getSource();
         if (source instanceof JButton) {
             JButton button = (JButton) source;
-//            if (button == buttonOpen) {
-//                openFile();
-//            if (button == pause) {
-//                if (!isPlaying) {
-//                    playBack();
-//                } else {
-//                    stopPlaying();
-//                }
-//            } else if (button == buttonPause) {
-//                if (!isPause) {
-//                    pausePlaying();
-//                } else {
-//                    resumePlaying();
-//                }
-//            }
-
             if(button==pause){
-//                  if(isPlaying){
-//                      pausePlaying();
-//                  }
-//                  else{
-//                      if(isPause)
-//                          resumePlaying();
-//                      else{
-//                          startPlaying();
-//                      }
-//                  }
+
                 if(!isPlaying )
-                    startPlaying();
+                    startPlaying(0);
                  else {
                     if (isPlaying && !isPause)
                         pausePlaying();
@@ -136,10 +119,12 @@ public class SouthPanel  extends JPanel implements ActionListener {
         }
 
     }
-    private void startPlaying() {
+    private void startPlaying(int second) {
         timer = new GuiLogic.PlayingTimer(passedTime, playSlider);
-        timer.start();
+//        timer.start();
         isPlaying = true;
+        if(playThread != null)
+            playThread.interrupt();
         playThread = new Thread(new Runnable() {
 
             @Override
@@ -153,15 +138,22 @@ public class SouthPanel  extends JPanel implements ActionListener {
                 playSlider.setMaximum((int) music.getMusicSecondLength());
 
                 time.setText(music.getMusicLengthString(1));
-
-                music.play();
-                timer.run();
+                if(second==0)
+                   music.play();
+                else
+                    music.seekTo(second);
+                timer.runPlayingTimer();
 //                resetControls();
                 // for the time its completing
             }
 
         });
+        System.out.println(playThread.getState());
         playThread.start();
+//        System.out.println(playThread.getState());
+//        playThread.run();
+//        System.out.println(playThread.getState());
+
     }
     private void pausePlaying() {
 
@@ -180,7 +172,56 @@ public class SouthPanel  extends JPanel implements ActionListener {
     }
     private void resetControls() {
         timer.reset();
-        timer.interrupt();
+//        timer.interrupt();
         isPlaying = false;
     }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+
+        Object source = e.getSource();
+        if(source instanceof JSlider){
+            JSlider slider = (JSlider) source;
+            if(slider==playSlider){
+                long lastposition=music.getPosition();
+                int second=slider.getValue();
+                System.out.println(second);
+                System.out.println(lastposition);
+//                if(Math.abs(lastposition-(long)second)>1 && !(second==50 && lastposition==0))
+                if(!(second==lastposition) && !(lastposition==0))
+                 startPlaying(second);
+
+
+            }
+            else{
+                if(slider==sound){
+                   int volume=slider.getValue();
+                   soundMaster.setVolume(volume);
+                }
+            }
+        }
+    }
+//    public void seek(int second){
+//
+//
+//        music.close();
+//        playThread.interrupt();
+//        music=new Music();
+//        music.setAddress("E://musics/t.mp3");
+//        music.seekTo(second);
+//
+//
+////        playThread = new Thread(new Runnable() {
+////
+////            @Override
+////            public void run() {
+////
+//////                timer.seek(music,second);
+////            }
+////
+////        });
+//////        playThread.start();
+////        playThread.start();
+//
+//    }
 }
