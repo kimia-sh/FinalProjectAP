@@ -7,7 +7,7 @@ import java.util.List;
 
 public class SoundMaster {
     public SoundMaster(){
-        setVolume(0);
+        setVolume(2000);
 
     }
     public void setVolume(Integer volume){
