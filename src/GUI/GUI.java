@@ -1,8 +1,13 @@
 package GUI;
+import existances.TimeComparator;
 
 import existances.Album;
 import existances.Music;
 import existances.PlayList;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Collections;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -13,7 +18,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileFilter;
+import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GUI extends JFrame implements ActionListener {
     JPanel westPanel;
@@ -39,6 +47,10 @@ public class GUI extends JFrame implements ActionListener {
     JButton addLibrary;
     JButton addPlayList;
     JList list;
+    PlayList newPlayList;
+    Music currentSong;
+    JButton okPlayList;
+    DefaultListModel DLM;
 
     public GUI() {
 
@@ -66,10 +78,13 @@ public class GUI extends JFrame implements ActionListener {
         songs.add(music8);
 
         Album album = new Album("Album 1");
+        Album album2 = new Album("Album 2");
+        Album album3 = new Album("Album 3");
         album.add(music1);
         album.add(music3);
         album.add(music4);
         albums.add(album);
+
 
         playList.add(music1);
         playList.add(music2);
@@ -200,7 +215,7 @@ public class GUI extends JFrame implements ActionListener {
         list = new JList();
         list.setBounds(187, 51, 179, 167);
         westPanel.add(list);
-        DefaultListModel DLM = new DefaultListModel();
+        DLM = new DefaultListModel();
         for (int i = 0; i < playLists.size(); i++) {
             String s = String.format(playLists.get(i).getName());
             DLM.addElement(s);
@@ -366,6 +381,8 @@ public class GUI extends JFrame implements ActionListener {
         centerPanel.removeAll();
         centerPanel.revalidate();
         centerPanel.repaint();
+        setVisible(true);
+
 //        for( int i=0; i < centerPanel.getComponentCount(); i++)
 //            centerPanel.remove(i);
         for (int i = 0; i < allSongs.size(); i++) {
@@ -377,7 +394,18 @@ public class GUI extends JFrame implements ActionListener {
             gbcons.gridx = 0;
             gbcons.gridy = 0;
 
+            currentSong = songs.get(i);
+            songsButtonList.add(b);
             b.addActionListener(this);
+            b.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    if (e.getButton()==MouseEvent.BUTTON3)
+                    {
+                        newPlayList.add(currentSong);
+                    }
+                }
+            });
             JPanel jp = new JPanel();
             JLabel jTitle = new JLabel(allSongs.get(i).getTitle());
             jTitle.setBounds(0,0,50,50);
@@ -401,13 +429,20 @@ public class GUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < songsButtonList.size(); i++) {
             if (e.getSource().equals(songsButtonList.get(i))) {
-                if (type == 1)
+                if (type == 1) {
                     songs.get(i).play();
-                else if (type == 2)
+                        timeSorter(songs , i);
+                }
+
+                else if (type == 2) {
                     playLists.get(list.getSelectedIndex()).getListMusic().get(i).play();
-                else if (type == 3)
+                    playLists.get(list.getSelectedIndex()).getListMusic().get(i).lastTime = LocalDateTime.now();
+                }
+                else if (type == 3) {
                     albums.get(currentAlbum).getListMusic().get(i).play();
-            }
+                    albums.get(currentAlbum).getListMusic().get(i).lastTime = LocalDateTime.now();
+                    }
+                }
         }
 
         if (e.getSource().equals(album_button)) {
@@ -416,28 +451,38 @@ public class GUI extends JFrame implements ActionListener {
             drawSongs(albums.get(currentAlbum).getListMusic());
 
         }
-
-        if (e.getSource().equals(all_playlists_button)) {
-//            list = new JList();
-//            list.setBounds(187, 51, 179, 167);
-//            westPanel.add(list);
-//            DefaultListModel DLM = new DefaultListModel();
-//            for (int i = 0; i < playLists.size(); i++) {
-//                String s = String.format("P%d", i);
-//                DLM.addElement(s);
-//            }
-//            list.setModel(DLM);
-//            westPanel.add(list);
-//            list.addListSelectionListener(new ListSelectionListener() {
-//                @Override
-//                public void valueChanged(ListSelectionEvent e) {
-//                    if (!e.getValueIsAdjusting()) {
-//                        type = 2;
-//                        drawSongs(playLists.get(list.getSelectedIndex()).getListMusic());
-//                    }
-//                }
-//            });
+        if (e.getSource().equals(okPlayList)) {
+            playLists.add(newPlayList);
+            System.out.println(newPlayList.getName());
+            DLM.addElement(newPlayList.getName());
+            list.setModel(DLM);
+            westPanel.add(list);
+            setVisible(true);
         }
+
+
+
+        if (e.getSource().equals(addPlayList)) {
+            type = 4;
+            drawSongs(songs);
+            okPlayList = new JButton("Create");
+            okPlayList.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    playLists.add(newPlayList);
+                    System.out.println(newPlayList.getName());
+                    DLM.addElement(newPlayList.getName());
+                    list.setModel(DLM);
+                    westPanel.add(list);
+                    setVisible(true);
+
+                }
+            });
+            centerPanel.add(okPlayList);
+            String s = String.format("P%d", playLists.size());
+            newPlayList = new PlayList(s);
+        }
+
 
         if (e.getSource().equals(songs_button)) {
             type = 1;
@@ -486,5 +531,15 @@ public class GUI extends JFrame implements ActionListener {
         }
 
 
+    }
+    public ArrayList<Music> timeSorter(ArrayList<Music> musics, int index){
+    Music temp = new Music();
+    temp = musics.get(index);
+    for(int i = index-1 ; i>=0 ; i--) {
+    musics.set(i+1 , musics.get(i));
+
+    }
+    musics.set(0 , temp);
+        return musics;
     }
 }
