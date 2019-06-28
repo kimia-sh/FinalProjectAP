@@ -1,9 +1,13 @@
 package GUI;
 
+import existances.PlayList;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-    public class WestPanel extends JPanel{
+public class WestPanel extends JPanel {
 //        private JPanel mainWestPanel = new JPanel();
 //
 //        public WestPanel(){
@@ -68,16 +72,18 @@ import java.awt.*;
 //
 //        }
         private JPanel north;
+    PlayList playList;
         public WestPanel(){
+
             setLayout(new BorderLayout());
             north=new JPanel(new GridBagLayout());
-
             GridBagConstraints gbcons = new GridBagConstraints();
             gbcons.fill = GridBagConstraints.VERTICAL;
             JPanel jp = new JPanel(new BorderLayout());
+            JButton home = new JButton("Home");
             gbcons.gridx = 0;
             gbcons.gridy = 0;
-            JButton home = new JButton("Home");
+
             north.add(home,gbcons);
             JLabel jlabel = new JLabel("Library");
             JButton addLibrary = new JButton("+");
@@ -98,10 +104,15 @@ import java.awt.*;
             album.setSize(new Dimension(50 , 10));
             north.add(album , gbcons);
             add(north,BorderLayout.NORTH);
-            PlaylistPanel playlistPanel=new PlaylistPanel();
-            add(playlistPanel,BorderLayout.CENTER);
+//            PlaylistPanel playlistPanel=new PlaylistPanel();
+//            playList = playlistPanel.getPlayList();
+
+
             JLabel artWork=new JLabel("art work");
             add(artWork,BorderLayout.SOUTH);
         }
-
+    PlayList getPlayList(){
+        return playList;
     }
+
+}

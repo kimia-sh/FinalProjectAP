@@ -1,32 +1,62 @@
 package existances;
 import com.mpatric.mp3agic.*;
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
-import javazoom.jl.player.advanced.AdvancedPlayer;
-import javazoom.jl.player.advanced.PlaybackEvent;
-import javazoom.jl.player.advanced.PlaybackListener;
 
+import java.time.LocalDateTime;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Scanner;
+import java.util.ArrayList;
 
-public class Music implements Serializable {
+public class Music extends Mp3File implements Serializable {
     JpotifyPlayer jpotifyPlayer;
+
     private String address;
     private InputStream musicStream;
     private String title;
     private String artist;
     private String album;
     private  Icon musicImage;
+    public LocalDateTime lastTime;
+
+
     public Music (){
         title=new String();
         artist=new String();
         album=new String();
+        lastTime =LocalDateTime.now();
+//        musicImage = new ImageIcon("E://pic.jpg");
+        if (this.hasId3v2Tag())
+        {
+            ID3v2 id3v2 = this.getId3v2Tag();
+            byte[] imageData = id3v2.getAlbumImage();
+            try {
+                if (imageData != null) {
+                    BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageData));
+                    musicImage = new ImageIcon(img);
+                }
+            }catch(IOException io) {}
+        }
+
     }
-    public Music(String address)  {
+    public Music(String address, String title)  {
+        musicImage = new ImageIcon("E://red.png");
+
+        if (this.hasId3v2Tag())
+        {
+            ID3v2 id3v2 = this.getId3v2Tag();
+            byte[] imageData = id3v2.getAlbumImage();
+            try {
+                if (imageData != null) {
+                    BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageData));
+                    musicImage = new ImageIcon(img);
+                }
+            }catch(IOException io) {}
+        }
 
         this.address=address;
-        title=new String();
+        this.title = title;
         artist=new String();
         album=new String();
         setMusicStream();
@@ -58,6 +88,11 @@ public class Music implements Serializable {
         setMusicStream();
         return musicStream ;
     }
+
+    public Icon getIcon() {
+        return musicImage ;
+    }
+
     // play from the first
     public void play(){
 
@@ -185,35 +220,6 @@ public class Music implements Serializable {
 
 
 
-//    public static void main(String args[]){
-//        Scanner scanner=new Scanner(System.in);
-//        Music music=new Music("E://musics/o.mp3");
-////        System.out.println(music.getMusicLengthString());
-//
-//
-//             int i=0;
-//
-//
-//
-//        while( i!=1){
-//            if(i==3)
-//            music.play();
-//            if(i==2)
-//                music.pause();
-//            if(i==4)
-//                music.resume();
-//            if(i==5)
-//                music.seekTo(40);
-//
-//
-//            i=scanner.nextInt();
-//        }
-//
-//            music.artWork();
-//        System.out.println(music.getAlbum());
-//        System.out.println( music.getArtist());
-//        System.out.println(music.getTitle());
-//    }
 
-    
-}
+    }
+
