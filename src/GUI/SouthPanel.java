@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SouthPanel  extends JPanel implements ActionListener, ChangeListener {
     private GuiLogic.PlayingTimer timer;
@@ -34,7 +35,12 @@ public class SouthPanel  extends JPanel implements ActionListener, ChangeListene
     JSlider sound ;
     JLabel passedTime;
     JLabel time;
-    public SouthPanel(){
+    ArrayList<Music> musics;
+    int current;
+    public SouthPanel(ArrayList<Music> musics , int current){
+        this.musics = musics;
+        this.current = current;
+        music = musics.get(current);
         east=new JPanel(new BorderLayout());
         west=new JPanel();
         center=new JPanel();
@@ -88,9 +94,6 @@ public class SouthPanel  extends JPanel implements ActionListener, ChangeListene
         sound.setMaximum(65535);
         sound.addChangeListener(this);
 
-
-
-
     }
     /**
      * Handle click events on the buttons.
@@ -106,9 +109,9 @@ public class SouthPanel  extends JPanel implements ActionListener, ChangeListene
 
                 if(!isPlaying )
                     startPlaying(0);
-                 else {
+                else {
                     if (isPlaying && !isPause)
-                        pausePlaying();
+                        pausePlaying(music);
                     else {
                         if (isPlaying && isPause)
                             resumePlaying();
@@ -119,7 +122,7 @@ public class SouthPanel  extends JPanel implements ActionListener, ChangeListene
         }
 
     }
-    private void startPlaying(int second) {
+    public void startPlaying(int second) {
         timer = new GuiLogic.PlayingTimer(passedTime, playSlider);
 //        timer.start();
         isPlaying = true;
@@ -129,7 +132,7 @@ public class SouthPanel  extends JPanel implements ActionListener, ChangeListene
 
             @Override
             public void run() {
-                music.setAddress("E://musics/t.mp3");
+                //music.setAddress("E://musics/t.mp3");
                 timer.setMusic(music);
                 music.artWork();
                 title.setText(music.getTitle()+"                              ");
@@ -139,10 +142,10 @@ public class SouthPanel  extends JPanel implements ActionListener, ChangeListene
 
                 time.setText(music.getMusicLengthString(1));
                 if(second==0)
-                   music.play();
+                    music.play();
                 else
                     music.seekTo(second);
-                timer.runPlayingTimer();
+//                timer.runPlayingTimer();
 //                resetControls();
                 // for the time its completing
             }
@@ -155,7 +158,7 @@ public class SouthPanel  extends JPanel implements ActionListener, ChangeListene
 //        System.out.println(playThread.getState());
 
     }
-    private void pausePlaying() {
+    public void pausePlaying(Music music) {
 
         isPause = true;
         music.pause();
@@ -189,14 +192,14 @@ public class SouthPanel  extends JPanel implements ActionListener, ChangeListene
                 System.out.println(lastposition);
 //                if(Math.abs(lastposition-(long)second)>1 && !(second==50 && lastposition==0))
                 if(!(second==lastposition) && !(lastposition==0))
-                 startPlaying(second);
+                    startPlaying(second);
 
 
             }
             else{
                 if(slider==sound){
-                   int volume=slider.getValue();
-                   soundMaster.setVolume(volume);
+                    int volume=slider.getValue();
+                    soundMaster.setVolume(volume);
                 }
             }
         }
@@ -224,4 +227,11 @@ public class SouthPanel  extends JPanel implements ActionListener, ChangeListene
 ////        playThread.start();
 //
 //    }
+
+    public void setMusics(ArrayList<Music> musics, int current) {
+        this.musics = musics;
+        this.current = current;
+        this.music = musics.get(current);
+        //startPlaying(0);
+    }
 }
